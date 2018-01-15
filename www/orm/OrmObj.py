@@ -1,9 +1,10 @@
 # -*- coding:utf-8 -*-
 
-# orm 的顶层类 Model
+
 from www.orm.BananaOrm import ModelMetaclass
 
 
+# orm 的顶层类 Model
 class Model(dict, metaclass=ModelMetaclass):
     def __init__(self, **kw):
         pass

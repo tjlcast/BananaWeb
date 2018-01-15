@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import logging;
+import logging
 import asyncio, os, json, time
 from datetime import datetime
 from aiohttp import web

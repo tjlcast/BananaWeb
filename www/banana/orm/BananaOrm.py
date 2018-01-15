@@ -3,10 +3,9 @@
 
 import asyncio
 import logging
-
 import aiomysql
 
-from www.banana.orm import Field
+from www.banana.orm.OrmObj import Field
 
 logging.basicConfig(level=logging.INFO)
 

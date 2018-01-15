@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 
-from www.orm.BananaOrm import ModelMetaclass
+from www.banana.orm import ModelMetaclass
 
 
 # orm 的顶层类 Model

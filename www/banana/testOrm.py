@@ -2,8 +2,11 @@
 
 import asyncio
 
-from banana.orm.BananaOrm import create_pool
-from banana.orm.OrmObj import Model, StringField, IntegerField
+import sys;
+
+from www.banana.orm import Model, IntegerField, StringField, create_pool
+
+sys.path.append('/Users/tangjialiang/PycharmProjects/BananaWeb/tjlcast/banana')
 
 
 class User(Model):
@@ -23,7 +26,8 @@ if __name__ == '__main__':
 
     user = User(id=123, name='Michead')
 
-    loop.run_until_complete(asyncio.wait(create_pool(loop, ), user.save()))
+    # loop.run_until_complete(asyncio.wait(create_pool(loop, **dbConfig)))
+    loop.run_until_complete(asyncio.wait(user.save()))
     loop.close()
 
 

@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-
 import asyncio
 import logging
 import aiomysql
 
-from www.banana.orm.OrmObj import Field
+from banana.orm.OrmObj import Field
 
 logging.basicConfig(level=logging.INFO)
 
@@ -71,8 +70,8 @@ class ModelMetaclass(type):
         tableName = attrs.get('__table__', None) or name
         logging.info('found model: %s (table: %s)' % (name, tableName))
 
-        mappings = dict()
-        fields = []
+        mappings = dict()   # 收集所有类型是Field的k和v
+        fields = []         # 收集所有类型是Field的非键变量
         primaryKey = None
         for k, v in attrs.items():
             if isinstance(v, Field):
@@ -89,12 +88,14 @@ class ModelMetaclass(type):
             raise RuntimeError('Primary key not found.')
         for k in mappings.keys():
             attrs.pop(k)
+
         escaped_fields = list(map(lambda f: '`%s`' % f, fields))
         attrs['__mappings__'] = mappings
         attrs['__table__'] = tableName
         attrs['__primary_key__'] = primaryKey
         attrs['__fields__'] = fields
 
+        # 往Model类添加class方法，就可以让所有子类调用class方法
         attrs['__select__'] = 'select `%s`, %s from `%s`' % (primaryKey, ', '.join(escaped_fields), tableName)
         attrs['__insert__'] = 'insert into `%s` (%s, `%s`) values (%s)' % (
         tableName, ', '.join(escaped_fields), primaryKey, create_args_string(len(escaped_fields) + 1))

@@ -47,6 +47,7 @@ def post(path):
     return decorate
 
 
+# =================== 以下为handler对request的处理方法
 def get_required_kw_args(fn):
     args = []
     params = inspect.signature(fn).parameters
@@ -156,6 +157,7 @@ class RequestHandler(object):
             return dict(error=e.error, data=e.data, message=e.message)
 
 
+# =================== 封装有注解的方法为RequestHandler并添加到app中
 def add_route(app, fn):
     method = getattr(fn, '__method__', None)
     path = getattr(fn, '__route__', None)
@@ -167,7 +169,7 @@ def add_route(app, fn):
     app.router.add_route(method, path, RequestHandler(app, fn))
 
 
-# 加载handler文件的路径
+# =================== 加载handler模块
 def add_routes(app, module_name):
     n = module_name.rfind('.')
     if n == (-1):

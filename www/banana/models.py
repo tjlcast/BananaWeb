@@ -2,7 +2,7 @@
 import time
 import uuid
 
-from www.banana.orm.OrmObj import Model, StringField, FloatField, TextField
+from www.banana.orm import Model, StringField, FloatField, TextField
 
 
 def next_id():
@@ -10,7 +10,7 @@ def next_id():
 
 
 class User(Model):
-    __table__ = 'user'
+    __table__ = 'users'
 
     id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
     email = StringField(ddl="varchar(50)")
@@ -29,7 +29,7 @@ class Blog(Model):
     user_image = StringField(ddl='varchar(50)')
     name = StringField(ddl='varchar(50)')
     summary = StringField(ddl='varchar(200)')
-    content = TextField(ddl='varchar(200)')
+    content = TextField()
     create_at = FloatField(default=time.time())
 
 

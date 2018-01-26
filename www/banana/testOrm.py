@@ -2,11 +2,7 @@
 
 import asyncio
 
-import sys;
-
-from www.banana.orm import Model, IntegerField, StringField, create_pool
-
-sys.path.append('/Users/tangjialiang/PycharmProjects/BananaWeb/tjlcast/banana')
+from www.banana.orm import Model, IntegerField, StringField, create_pool, destory_pool
 
 
 class User(Model):
@@ -16,19 +12,19 @@ class User(Model):
     name = StringField()
 
 
-if __name__ == '__main__':
-    dbConfig = {
-        'user': 'root',
-        'password': 'destination',
-        'db': 'bananaWeb',
-    }
-    loop = asyncio.get_event_loop()
-
-    user = User(id=123, name='Michead')
-
-    # loop.run_until_complete(asyncio.wait(create_pool(loop, **dbConfig)))
-    loop.run_until_complete(asyncio.wait(user.save()))
-    loop.close()
+@asyncio.coroutine
+def test(loop):
+        dbConfig = {
+            'user': 'root',
+            'password': 'destination',
+            'db': 'bananaWeb',
+        }
+        yield from create_pool(loop = loop, **dbConfig)
+        user = User(id=123, name='Michead')
+        yield from user.save()
+        yield from destory_pool()
 
 
-
+loop = asyncio.get_event_loop()
+loop.run_until_complete(test(loop))
+loop.close()

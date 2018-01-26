@@ -1,6 +1,12 @@
 
 CREATE DATABASE awesome DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+create table users (
+    `id` varchar(50) not null,
+    `name` varchar(50) not null,
+    primary key (`id`)
+) engine=innodb default charset=utf8;
+
 
 drop database if exists awesome;
 

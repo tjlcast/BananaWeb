@@ -27,6 +27,15 @@ def create_pool(loop, **kw):
     )
 
 
+# 销毁连接池
+@asyncio.coroutine
+def destory_pool():
+    global __pool
+    if __pool is not None:
+        __pool.close()
+        yield from __pool.wait_closed()
+
+
 # 数据库的查询
 @asyncio.coroutine
 def select(sql, args, size=None):
@@ -58,6 +67,23 @@ def execute(sql, args):
         except BaseException as e:
             raise
         return affected
+
+    # logging.info(sql)
+    # with (yield from __pool) as conn:
+    #     if not autocommit:
+    #         await
+    #         conn.begin()
+    #     try:
+    #         with (yield from conn.cursor(aiomysql.DictCursor)) as cur:
+    #             yield from cur.execute(sql.replace('?', '%s'), args)
+    #             affected = cur.rowcount
+    #         if not autocommit:
+    #             yield from conn.commit()
+    #     except BaseException as e:
+    #         if not autocommit:
+    #             yield from conn.rollback()
+    #         raise
+    #     return affected
 
 
 # 生成mysq的占位符
